@@ -1,0 +1,27 @@
+<?xml   version="1.0"   encoding="utf-8"?>
+
+<sites>
+
+    <!--category-->
+    <site>
+        <name>category</name>
+        <url>http://fm.duokanbox.com/category</url>
+        <param_or_not>1</param_or_not>
+        <param>
+            <pn>pn=%s</pn>
+            <size>size=%s</size>
+        </param>
+    </site>
+
+    <!--channel-->
+    <site>
+        <name>channel</name>
+        <url>http://fm.duokanbox.com/channel/%s</url>
+        <param_or_not>1</param_or_not>
+        <param>
+            <pn>pn=%s</pn>
+            <size>size=%s</size>
+        </param>
+    </site>
+
+</sites>
