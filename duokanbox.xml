@@ -1,6 +1,7 @@
-<?xml   version="1.0"   encoding="utf-8"?>
+<?xml   version="1.0"  namespace='sites' encoding="utf-8"?>
 
-<sites>
+<!--suppress XmlUnboundNsPrefix -->
+<duokanbox>
 
     <!--category-->
     <site>
@@ -24,4 +25,4 @@
         </param>
     </site>
 
-</sites>
+</duokanbox>
