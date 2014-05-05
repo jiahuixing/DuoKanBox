@@ -2,12 +2,29 @@
 # -*- coding: utf-8 -*-
 __author__ = 'jiahuixing'
 
-from xml.etree import ElementTree as ET
+import ConfigParser
+from libs import *
+# from xml.etree import ElementTree as ET
 
 
 class DuokanBox:
+    xml = ''
+    work_path = ''
+
     def __init__(self):
-        pass
+        try:
+            config = ConfigParser.ConfigParser()
+            config.read('config.ini')
+            self.xml = config.get('config', 'xml')
+            self.work_path = config.get('config', 'work_path')
+            debug_msg(color_msg('xml=%s' % self.xml))
+            debug_msg(color_msg('work_path=%s' % self.work_path))
+        except IOError:
+            print('IOError')
 
     def get_sites(self):
         pass
+
+
+if __name__ == '__main__':
+    dkb = DuokanBox()
