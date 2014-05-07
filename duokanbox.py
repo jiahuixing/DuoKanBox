@@ -17,6 +17,17 @@ class DuokanBox:
     site_list = list()
 
     def __init__(self):
+        self.init()
+        if self.xml == '' or self.work_path == '':
+            debug_msg(color_msg('Null.', RED, WHITE))
+            sys.exit()
+        self.get_site()
+
+    def init(self):
+        self.get_config()
+        self.get_site()
+
+    def get_config(self):
         try:
             config = ConfigParser.ConfigParser()
             config.read('config.ini')
@@ -29,9 +40,6 @@ class DuokanBox:
             debug_msg('params=%s' % self.params)
         except IOError:
             print('IOError')
-        if self.xml == '' or self.work_path == '':
-            debug_msg(color_msg('Null.', RED, WHITE))
-            sys.exit()
 
     def get_site(self):
         try:
@@ -61,4 +69,3 @@ class DuokanBox:
 
 if __name__ == '__main__':
     dkb = DuokanBox()
-    dkb.get_site()
