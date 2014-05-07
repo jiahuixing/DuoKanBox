@@ -1,6 +1,5 @@
-<?xml   version="1.0"  namespace='sites' encoding="utf-8"?>
-
-<!--suppress XmlUnboundNsPrefix -->
+<?xml   version="1.0"   encoding="utf-8"?>
+<!--suppress XmlUnboundNsPrefix, XmlUnboundNsPrefix -->
 <duokanbox>
 
     <!--category-->
@@ -8,10 +7,6 @@
         <name>category</name>
         <url>http://fm.duokanbox.com/category</url>
         <param_or_not>1</param_or_not>
-        <param>
-            <pn>pn=%s</pn>
-            <size>size=%s</size>
-        </param>
     </site>
 
     <!--channel-->
@@ -19,10 +14,6 @@
         <name>channel</name>
         <url>http://fm.duokanbox.com/channel/%s</url>
         <param_or_not>1</param_or_not>
-        <param>
-            <pn>pn=%s</pn>
-            <size>size=%s</size>
-        </param>
     </site>
 
 </duokanbox>
