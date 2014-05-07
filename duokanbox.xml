@@ -2,18 +2,58 @@
 <!--suppress XmlUnboundNsPrefix, XmlUnboundNsPrefix -->
 <duokanbox>
 
-    <!--category-->
+    <!--获取全部分类-->
     <site>
         <name>category</name>
         <url>http://fm.duokanbox.com/category</url>
         <param_or_not>1</param_or_not>
+        <count>0</count>
+        <param>/%s</param>
     </site>
 
-    <!--channel-->
+    <!--获取某分类下的频道-->
     <site>
-        <name>channel</name>
-        <url>http://fm.duokanbox.com/channel/%s</url>
+        <name>category_channels</name>
+        <url>http://fm.duokanbox.com/category</url>
         <param_or_not>1</param_or_not>
+        <count>1</count>
+        <param>/%s</param>
+    </site>
+
+    <!--获取频道详情和歌曲列表-->
+    <site>
+        <name>channel_info</name>
+        <url>http://fm.duokanbox.com/channel</url>
+        <param_or_not>1</param_or_not>
+        <count>1</count>
+        <param>/%s</param>
+    </site>
+
+    <!--根据id获取歌曲信息-->
+    <site>
+        <name>channel_info</name>
+        <url>http://fm.duokanbox.com/music</url>
+        <param_or_not>1</param_or_not>
+        <count>10</count>
+        <param>/%s</param>
+    </site>
+
+    <!--根据在线id获取歌曲id-->
+    <site>
+        <name>get_online_id_by_cp_id</name>
+        <url>http://fm.duokanbox.com/sid</url>
+        <param_or_not>0</param_or_not>
+        <count>10</count>
+        <param>/%s</param>
+    </site>
+
+    <!--根据歌曲信息搜索歌曲-->
+    <site>
+        <name>search_songs</name>
+        <url>http://fm.duokanbox.com/sinfo</url>
+        <param_or_not>1</param_or_not>
+        <count>1</count>
+        <param>/%s</param>
     </site>
 
 </duokanbox>

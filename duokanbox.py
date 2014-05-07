@@ -9,19 +9,28 @@ from libs import *
 from xml.etree import ElementTree
 
 
-class DuokanBox:
+# noinspection PyClassHasNoInit
+class Info:
     xml = ''
     work_path = ''
     duokanbox = list()
     params = dict()
     site_list = list()
+    cids = list()
 
-    def __init__(self):
-        self.init()
-        if self.xml == '' or self.work_path == '':
-            debug_msg(color_msg('Null.', RED, WHITE))
+
+class DuokanBox:
+    m_info = Info()
+
+    def __init__(self, info):
+        if isinstance(info, Info):
+            self.m_info = info
+            self.init()
+            if info.xml == '' or info.work_path == '':
+                debug_msg(color_msg('Null.', RED, WHITE))
+                sys.exit()
+        else:
             sys.exit()
-        self.get_site()
 
     def init(self):
         self.get_config()
@@ -29,23 +38,25 @@ class DuokanBox:
 
     def get_config(self):
         try:
+            info = self.m_info
             config = ConfigParser.ConfigParser()
             config.read('config.ini')
-            self.xml = config.get('config', 'xml')
-            self.work_path = config.get('config', 'work_path')
-            self.params['pn'] = config.get('param', 'pn')
-            self.params['size'] = config.get('param', 'size')
-            debug_msg('xml=%s' % self.xml)
-            debug_msg('work_path=%s' % self.work_path)
-            debug_msg('params=%s' % self.params)
+            info.xml = config.get('config', 'xml')
+            info.work_path = config.get('config', 'work_path')
+            info.params['pn'] = config.get('param', 'pn')
+            info.params['size'] = config.get('param', 'size')
+            debug_msg('xml=%s' % info.xml)
+            debug_msg('work_path=%s' % info.work_path)
+            debug_msg('params=%s' % info.params)
         except IOError:
             print('IOError')
 
     def get_site(self):
         try:
+            info = self.m_info
             # debug_msg('xml=%s' % self.xml)
-            os.chdir(self.work_path)
-            root = ElementTree.parse(self.xml)
+            os.chdir(info.work_path)
+            root = ElementTree.parse(info.xml)
             if root:
                 sites = root.findall('site')
                 # debug_msg(sites)
@@ -59,8 +70,9 @@ class DuokanBox:
                                 # debug_msg('tag=%s,text=%s' % (ele.tag, ele.text))
                                 ele_dict_tmp[ele.tag] = ele.text
                         site_list.append(ele_dict_tmp)
-                self.site_list = site_list
-                debug_msg(self.site_list)
+                info.site_list = sorted(site_list)
+                for i in xrange(len(info.site_list)):
+                    debug_msg(info.site_list[i])
             else:
                 sys.exit()
         except IOError:
@@ -68,4 +80,5 @@ class DuokanBox:
 
 
 if __name__ == '__main__':
-    dkb = DuokanBox()
+    m_info = Info()
+    dkb = DuokanBox(m_info)
