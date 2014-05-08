@@ -12,6 +12,7 @@ from libs import *
 
 
 
+
 # noinspection PyClassHasNoInit
 class Info:
     xml = ''
@@ -79,10 +80,11 @@ class DuokanBox:
                     debug_msg(site)
                     if isinstance(site, dict):
                         for item in sorted(site.items()):
-                            debug_msg(item)
-                            if isinstance(item, tuple):
-                                debug_msg(item[0])
-                                debug_msg(item[1])
+                            debug_msg('key=%s' % item[0])
+                            debug_msg('value=%s' % item[1])
+                            # if isinstance(item, tuple):
+                            #     debug_msg(item[0])
+                            #     debug_msg(item[1])
             else:
                 sys.exit()
         except IOError:

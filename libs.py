@@ -11,7 +11,9 @@ DEBUG = 1
 
 def debug_msg(msg, flag=DEBUG):
     if flag == 1:
+        print('------------------------')
         print(msg)
+        print('------------------------')
 
 
 def color_msg(msg, fg=GREEN, bg=WHITE):
