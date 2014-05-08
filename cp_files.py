@@ -45,9 +45,9 @@ def cp_files():
                         cmd = '1\r'
                         child.send(cmd)
                 except pexpect.EOF:
-                    print('EOF')
+                    print('pexpect.EOF')
                 except pexpect.TIMEOUT:
-                    print('TIMEOUT')
+                    print('pexpect.TIMEOUT')
 
 
 cp_files()
