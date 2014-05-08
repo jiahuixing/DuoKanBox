@@ -5,8 +5,10 @@ __author__ = 'jiahuixing'
 import sys
 import os
 import ConfigParser
-from libs import *
 from xml.etree import ElementTree
+
+from libs import *
+
 
 
 # noinspection PyClassHasNoInit
@@ -72,10 +74,10 @@ class DuokanBox:
                         site_list.append(ele_dict_tmp)
                 info.site_list = sorted(site_list)
                 for i in xrange(len(info.site_list)):
-                    tmp = info.site_list[i]
-                    debug_msg(tmp)
-                    if isinstance(tmp, dict):
-                        for item in sorted(tmp.items()):
+                    site = info.site_list[i]
+                    debug_msg(site)
+                    if isinstance(site, dict):
+                        for item in sorted(site.items()):
                             debug_msg(item)
                             # if isinstance(item, tuple):
                             #     debug_msg(item[0])
