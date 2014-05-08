@@ -22,7 +22,7 @@ class Info:
 class DuokanBox:
     m_info = Info()
 
-    def __init__(self, info):
+    def __init__(self, info=Info()):
         if isinstance(info, Info):
             self.m_info = info
             self.init()
@@ -72,7 +72,14 @@ class DuokanBox:
                         site_list.append(ele_dict_tmp)
                 info.site_list = sorted(site_list)
                 for i in xrange(len(info.site_list)):
-                    debug_msg(info.site_list[i])
+                    tmp = info.site_list[i]
+                    debug_msg(tmp)
+                    if isinstance(tmp, dict):
+                        for item in sorted(tmp.items()):
+                            debug_msg(item)
+                            # if isinstance(item, tuple):
+                            #     debug_msg(item[0])
+                            #     debug_msg(item[1])
             else:
                 sys.exit()
         except IOError:
@@ -80,5 +87,5 @@ class DuokanBox:
 
 
 if __name__ == '__main__':
-    m_info = Info()
-    dkb = DuokanBox(m_info)
+    # m_info = Info()
+    dkb = DuokanBox()
