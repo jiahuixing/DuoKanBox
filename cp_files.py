@@ -35,9 +35,8 @@ def cp_files():
     os.chdir(work_path)
     for file_name in os.listdir(work_path):
         if file_name not in filter_s:
-            debug_msg(file_name)
             if file_suffix(file_name) == 1:
-                # debug_msg(file_name)
+                debug_msg(file_name)
                 cmd = 'sudo cp %s /home/jiahuixing/SVN/Music/trunk' % file_name
                 child = pexpect.spawn(cmd)
                 try:
