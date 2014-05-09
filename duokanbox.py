@@ -11,8 +11,6 @@ from libs import *
 
 
 
-
-
 # noinspection PyClassHasNoInit
 class Info:
     xml = ''
@@ -75,22 +73,36 @@ class DuokanBox:
                                 ele_dict_tmp[ele.tag] = ele.text
                         site_list.append(ele_dict_tmp)
                 info.site_list = sorted(site_list)
-                for i in xrange(len(info.site_list)):
-                    site = info.site_list[i]
-                    debug_msg(site)
-                    if isinstance(site, dict):
-                        for item in sorted(site.items()):
-                            debug_msg('key=%s' % item[0])
-                            debug_msg('value=%s' % item[1])
-                            # if isinstance(item, tuple):
-                            #     debug_msg(item[0])
-                            #     debug_msg(item[1])
+                # for i in xrange(len(info.site_list)):
+                #     site = info.site_list[i]
+                #     debug_msg(site)
+                #     if isinstance(site, dict):
+                #         for item in sorted(site.items()):
+                #             debug_msg('key=%s' % item[0])
+                #             debug_msg('value=%s' % item[1])
+                #             if isinstance(item, tuple):
+                #                 debug_msg(item[0])
+                #                 debug_msg(item[1])
             else:
                 sys.exit()
         except IOError:
             print('IOError')
 
+    # noinspection PyMethodMayBeStatic
+    def req_site(self, site=None):
+        if isinstance(site, dict):
+            try:
+                name = site['name']
+                debug_msg(name)
+            except KeyError:
+                print('KeyError')
+        else:
+            print('Not a correct site.')
+            sys.exit()
+
 
 if __name__ == '__main__':
-    # m_info = Info()
-    dkb = DuokanBox()
+    m_info = Info()
+    dkb = DuokanBox(m_info)
+    for i in xrange(len(m_info.site_list)):
+        dkb.req_site(m_info.site_list[i])
