@@ -4,6 +4,7 @@
 
     <!--获取全部分类-->
     <site>
+        <id>0</id>
         <name>category</name>
         <main_url>http://fm.duokanbox.com/category</main_url>
         <param_or_not>1</param_or_not>
@@ -13,6 +14,7 @@
 
     <!--获取某分类下的频道-->
     <site>
+        <id>1</id>
         <name>category_channels</name>
         <main_url>http://fm.duokanbox.com/category</main_url>
         <param_or_not>1</param_or_not>
@@ -22,6 +24,7 @@
 
     <!--获取频道详情和歌曲列表-->
     <site>
+        <id>2</id>
         <name>channel_info</name>
         <main_url>http://fm.duokanbox.com/channel</main_url>
         <param_or_not>1</param_or_not>
@@ -31,7 +34,8 @@
 
     <!--根据id获取歌曲信息-->
     <site>
-        <name>channel_info</name>
+        <id>3</id>
+        <name>song_info</name>
         <main_url>http://fm.duokanbox.com/music</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>10</sub_count>
@@ -40,6 +44,7 @@
 
     <!--根据在线id获取歌曲id-->
     <site>
+        <id>4</id>
         <name>get_online_id_by_cp_id</name>
         <main_url>http://fm.duokanbox.com/sid</main_url>
         <param_or_not>0</param_or_not>
@@ -49,6 +54,7 @@
 
     <!--根据歌曲信息搜索歌曲-->
     <site>
+        <id>5</id>
         <name>search_songs</name>
         <main_url>http://fm.duokanbox.com/sinfo</main_url>
         <param_or_not>1</param_or_not>

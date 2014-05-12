@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 __author__ = 'jiahuixing'
 
+#system lib
 import sys
 import os
 import ConfigParser
 from xml.etree import ElementTree
-
+#user lib
 from libs import *
-
 
 
 # noinspection PyClassHasNoInit
@@ -47,9 +47,9 @@ class DuokanBox:
             info.work_path = config.get('config', 'work_path')
             info.params['pn'] = config.get('param', 'pn')
             info.params['size'] = config.get('param', 'size')
-            debug_msg('xml=%s' % info.xml)
-            debug_msg('work_path=%s' % info.work_path)
-            debug_msg('params=%s' % info.params)
+            # debug_msg('xml=%s' % info.xml)
+            # debug_msg('work_path=%s' % info.work_path)
+            # debug_msg('params=%s' % info.params)
         except IOError:
             print('IOError')
 
@@ -92,8 +92,16 @@ class DuokanBox:
     def req_site(self, site=None):
         if isinstance(site, dict):
             try:
-                name = site['name']
-                debug_msg(name)
+                # for key in sorted(site.keys()):
+                #     debug_msg('key=%s,value=%s' % (key, site.get(key)))
+                d_id = site.get('id')
+                name = site.get('name')
+                main_url = site.get('main_url')
+                param_or_not = site.get('param_or_not')
+                sub_count = site.get('sub_count')
+                sub = site.get('sub')
+                debug_msg('d_id=%s,name=%s\nmain_url=%s,sub_count=%s,param_or_not=%s,sub=%s' % (
+                    d_id, name, main_url, sub_count, param_or_not, sub))
             except KeyError:
                 print('KeyError')
         else:
