@@ -21,6 +21,49 @@ class Info:
     cids = list()
 
 
+# noinspection PyClassHasNoInit
+class TestInfo:
+    xml = ''
+    work_path = ''
+    params = dict()
+    sites = list()
+
+
+# noinspection PyClassHasNoInit
+class Site:
+    id = ''
+    name = ''
+    main_url = ''
+    param_or_not = ''
+    sub_count = ''
+    sub = ''
+
+
+# noinspection PyMethodMayBeStatic
+class TestDuokanBox():
+    m_info = TestInfo()
+
+    def __init__(self, info):
+        self.m_info = info
+
+    def init(self):
+        try:
+            self.get_config()
+        except IOError:
+            print('IOError')
+
+    def get_config(self):
+        config = ConfigParser.ConfigParser()
+        config.read('config.ini')
+        self.m_info.xml = config.get('config', 'xml')
+        self.m_info.work_path = config.get('config', 'work_path')
+        self.m_info.params['pn'] = config.get('param', 'pn')
+        self.m_info.params['size'] = config.get('param', 'size')
+
+    def get_site(self):
+        root = ElementTree.ElementPath
+
+
 class DuokanBox:
     m_info = Info()
 
