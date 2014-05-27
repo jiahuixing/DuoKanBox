@@ -82,14 +82,14 @@ class DuokanBox():
                 info.sites.append(tmp_site)
 
     def req_site(self, n_site=Site()):
-        d_id = n_site.id
+        m_id = n_site.id
         name = n_site.name
         main_url = n_site.main_url
         param_or_not = n_site.param_or_not
         sub_count = n_site.sub_count
         sub = n_site.sub
         debug_msg('id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
-            d_id, name, main_url, sub_count, sub, param_or_not))
+            m_id, name, main_url, sub_count, sub, param_or_not))
 
 
 if __name__ == '__main__':

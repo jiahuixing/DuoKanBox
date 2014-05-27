@@ -38,16 +38,16 @@ def cp_files():
     for file_name in os.listdir(work_path):
         if file_name not in ignore_files:
             if file_suffix(file_name) == 1:
-                debug_msg(file_name)
                 cmd = 'sudo cp %s %s' % (file_name, termini_path)
+                color_cmd = 'sudo cp %s %s' % (color_msg(file_name), termini_path)
+                debug_msg(color_cmd)
                 child = pexpect.spawn(cmd)
                 try:
                     i = child.expect('jiahuixing:')
                     if i == 0:
                         cmd = '1\r'
                         child.send(cmd)
-                except pexpect.EOF:
-                    print('pexpect.EOF')
+                        child.expect(pexpect.EOF)
                 except pexpect.TIMEOUT:
                     print('pexpect.TIMEOUT')
 
