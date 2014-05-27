@@ -20,7 +20,10 @@ class Info:
     work_path = ''
     params = dict()
     sites = list()
-    category = list()
+    categories = list()
+    channels = list()
+    musics = list()
+    cp_ids = list()
 
 
 # noinspection PyClassHasNoInit
@@ -68,7 +71,7 @@ class DuokanBox():
             read_sites = root.findall('site')
             for read_site in read_sites:
                 tmp_site = Site()
-                assert isinstance(read_site, ElementTree.Element)
+                # assert isinstance(read_site, ElementTree.Element)
                 tmp_site.id = read_site.findtext('id')
                 tmp_site.name = read_site.findtext('name')
                 tmp_site.main_url = '%s%s' % (self.m_info.domain, read_site.findtext('main_url'))
