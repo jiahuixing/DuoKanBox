@@ -53,12 +53,12 @@ class DuokanBox():
         info = Info()
         info.xml = config.get('config', 'xml')
         info.work_path = config.get('config', 'work_path')
+        info.params['pn'] = config.get('param', 'pn')
+        info.params['size'] = config.get('param', 'size')
         if STAGING == 1:
             info.domain = config.get('domains', 'test_domain')
         else:
             info.domain = config.get('domains', 'domain')
-        info.params['pn'] = config.get('param', 'pn')
-        info.params['size'] = config.get('param', 'size')
         self.m_info = info
 
     def get_site(self):
