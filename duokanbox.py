@@ -3,26 +3,15 @@
 __author__ = 'jiahuixing'
 
 #system lib
-import sys
-import os
 import ConfigParser
 from xml.etree import ElementTree
+
 #user lib
 from libs import *
 
 
 # noinspection PyClassHasNoInit
 class Info:
-    xml = ''
-    work_path = ''
-    duokanbox = list()
-    params = dict()
-    site_list = list()
-    cids = list()
-
-
-# noinspection PyClassHasNoInit
-class TestInfo:
     xml = ''
     work_path = ''
     params = dict()
@@ -40,120 +29,59 @@ class Site:
 
 
 # noinspection PyMethodMayBeStatic
-class TestDuokanBox():
-    m_info = TestInfo()
+class DuokanBox():
+    m_info = Info()
 
-    def __init__(self, info):
+    def __init__(self, info=Info()):
         self.m_info = info
 
     def init(self):
         try:
             self.get_config()
+            self.get_site()
         except IOError:
             print('IOError')
 
     def get_config(self):
         config = ConfigParser.ConfigParser()
         config.read('config.ini')
-        self.m_info.xml = config.get('config', 'xml')
-        self.m_info.work_path = config.get('config', 'work_path')
-        self.m_info.params['pn'] = config.get('param', 'pn')
-        self.m_info.params['size'] = config.get('param', 'size')
+        info = Info()
+        info.xml = config.get('config', 'xml')
+        info.work_path = config.get('config', 'work_path')
+        info.params['pn'] = config.get('param', 'pn')
+        info.params['size'] = config.get('param', 'size')
+        self.m_info = info
 
     def get_site(self):
-        root = ElementTree.ElementPath
+        info = self.m_info
+        root = ElementTree.parse(info.xml)
+        if root:
+            read_sites = root.findall('site')
+            for read_site in read_sites:
+                tmp_site = Site()
+                assert isinstance(read_site, ElementTree.Element)
+                tmp_site.id = read_site.findtext('id')
+                tmp_site.name = read_site.findtext('name')
+                tmp_site.main_url = read_site.findtext('main_url')
+                tmp_site.param_or_not = read_site.findtext('param_or_not')
+                tmp_site.sub_count = read_site.findtext('sub_count')
+                tmp_site.sub = read_site.findtext('sub')
+                info.sites.append(tmp_site)
 
-
-class DuokanBox:
-    m_info = Info()
-
-    def __init__(self, info=Info()):
-        if isinstance(info, Info):
-            self.m_info = info
-            self.init()
-            if info.xml == '' or info.work_path == '':
-                debug_msg(color_msg('Null.', RED, WHITE))
-                sys.exit()
-        else:
-            sys.exit()
-
-    def init(self):
-        self.get_config()
-        self.get_site()
-
-    def get_config(self):
-        try:
-            info = self.m_info
-            config = ConfigParser.ConfigParser()
-            config.read('config.ini')
-            info.xml = config.get('config', 'xml')
-            info.work_path = config.get('config', 'work_path')
-            info.params['pn'] = config.get('param', 'pn')
-            info.params['size'] = config.get('param', 'size')
-            # debug_msg('xml=%s' % info.xml)
-            # debug_msg('work_path=%s' % info.work_path)
-            # debug_msg('params=%s' % info.params)
-        except IOError:
-            print('IOError')
-
-    def get_site(self):
-        try:
-            info = self.m_info
-            # debug_msg('xml=%s' % self.xml)
-            os.chdir(info.work_path)
-            root = ElementTree.parse(info.xml)
-            if root:
-                sites = root.findall('site')
-                # debug_msg(sites)
-                site_list = list()
-                for site in sites:
-                    if isinstance(site, ElementTree.Element):
-                        # debug_msg(list(site))
-                        ele_dict_tmp = dict()
-                        for ele in list(site):
-                            if isinstance(ele, ElementTree.Element):
-                                # debug_msg('tag=%s,text=%s' % (ele.tag, ele.text))
-                                ele_dict_tmp[ele.tag] = ele.text
-                        site_list.append(ele_dict_tmp)
-                info.site_list = sorted(site_list)
-                # for i in xrange(len(info.site_list)):
-                #     site = info.site_list[i]
-                #     debug_msg(site)
-                #     if isinstance(site, dict):
-                #         for item in sorted(site.items()):
-                #             debug_msg('key=%s' % item[0])
-                #             debug_msg('value=%s' % item[1])
-                #             if isinstance(item, tuple):
-                #                 debug_msg(item[0])
-                #                 debug_msg(item[1])
-            else:
-                sys.exit()
-        except IOError:
-            print('IOError')
-
-    # noinspection PyMethodMayBeStatic
-    def req_site(self, site=None):
-        if isinstance(site, dict):
-            try:
-                # for key in sorted(site.keys()):
-                #     debug_msg('key=%s,value=%s' % (key, site.get(key)))
-                d_id = site.get('id')
-                name = site.get('name')
-                main_url = site.get('main_url')
-                param_or_not = site.get('param_or_not')
-                sub_count = site.get('sub_count')
-                sub = site.get('sub')
-                debug_msg('d_id=%s,name=%s\nmain_url=%s,sub_count=%s,param_or_not=%s,sub=%s' % (
-                    d_id, name, main_url, sub_count, param_or_not, sub))
-            except KeyError:
-                print('KeyError')
-        else:
-            print('Not a correct site.')
-            sys.exit()
+    def req_site(self, n_site=Site()):
+        d_id = n_site.id
+        name = n_site.name
+        main_url = n_site.main_url
+        param_or_not = n_site.param_or_not
+        sub_count = n_site.sub_count
+        sub = n_site.sub
+        debug_msg('id=%s,name=%s\nmain_url=%s\nsub_count=%s,param_or_not=%s,sub=%s' % (
+            d_id, name, main_url, sub_count, param_or_not, sub))
 
 
 if __name__ == '__main__':
-    m_info = Info()
-    dkb = DuokanBox(m_info)
-    for i in xrange(len(m_info.site_list)):
-        dkb.req_site(m_info.site_list[i])
+    dkb = DuokanBox()
+    dkb.init()
+    debug_msg(dkb.m_info.sites)
+    for site in dkb.m_info.sites:
+        dkb.req_site(site)
