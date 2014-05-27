@@ -52,7 +52,8 @@ class DuokanBox():
 
     def get_config(self):
         config = ConfigParser.ConfigParser()
-        config.read('config.ini')
+        config_file = 'config.ini'
+        config.read(config_file)
         info = Info()
         info.xml = config.get('config', 'xml')
         info.work_path = config.get('config', 'work_path')
