@@ -9,13 +9,18 @@ from xml.etree import ElementTree
 #user lib
 from libs import *
 
+#staging or online
+STAGING = 1
+
 
 # noinspection PyClassHasNoInit
 class Info:
+    domain = ''
     xml = ''
     work_path = ''
     params = dict()
     sites = list()
+    category = list()
 
 
 # noinspection PyClassHasNoInit
@@ -23,9 +28,9 @@ class Site:
     id = ''
     name = ''
     main_url = ''
-    param_or_not = ''
     sub_count = ''
     sub = ''
+    param_or_not = ''
 
 
 # noinspection PyMethodMayBeStatic
@@ -48,6 +53,10 @@ class DuokanBox():
         info = Info()
         info.xml = config.get('config', 'xml')
         info.work_path = config.get('config', 'work_path')
+        if STAGING == 1:
+            info.domain = config.get('domains', 'test_domain')
+        else:
+            info.domain = config.get('domains', 'domain')
         info.params['pn'] = config.get('param', 'pn')
         info.params['size'] = config.get('param', 'size')
         self.m_info = info
@@ -62,10 +71,10 @@ class DuokanBox():
                 assert isinstance(read_site, ElementTree.Element)
                 tmp_site.id = read_site.findtext('id')
                 tmp_site.name = read_site.findtext('name')
-                tmp_site.main_url = read_site.findtext('main_url')
-                tmp_site.param_or_not = read_site.findtext('param_or_not')
+                tmp_site.main_url = '%s%s' % (self.m_info.domain, read_site.findtext('main_url'))
                 tmp_site.sub_count = read_site.findtext('sub_count')
                 tmp_site.sub = read_site.findtext('sub')
+                tmp_site.param_or_not = read_site.findtext('param_or_not')
                 info.sites.append(tmp_site)
 
     def req_site(self, n_site=Site()):
@@ -75,8 +84,8 @@ class DuokanBox():
         param_or_not = n_site.param_or_not
         sub_count = n_site.sub_count
         sub = n_site.sub
-        debug_msg('id=%s,name=%s\nmain_url=%s\nsub_count=%s,param_or_not=%s,sub=%s' % (
-            d_id, name, main_url, sub_count, param_or_not, sub))
+        debug_msg('id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
+            d_id, name, main_url, sub_count, sub, param_or_not))
 
 
 if __name__ == '__main__':

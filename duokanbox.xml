@@ -6,7 +6,7 @@
     <site>
         <id>0</id>
         <name>category</name>
-        <main_url>http://fm.duokanbox.com/category</main_url>
+        <main_url>/category</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>0</sub_count>
         <sub>/%s</sub>
@@ -16,7 +16,7 @@
     <site>
         <id>1</id>
         <name>category_channels</name>
-        <main_url>http://fm.duokanbox.com/category</main_url>
+        <main_url>/category</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>1</sub_count>
         <sub>/%s</sub>
@@ -26,7 +26,7 @@
     <site>
         <id>2</id>
         <name>channel_info</name>
-        <main_url>http://fm.duokanbox.com/channel</main_url>
+        <main_url>/channel</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>1</sub_count>
         <sub>/%s</sub>
@@ -36,7 +36,7 @@
     <site>
         <id>3</id>
         <name>song_info</name>
-        <main_url>http://fm.duokanbox.com/music</main_url>
+        <main_url>/music</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>10</sub_count>
         <sub>/%s</sub>
@@ -46,7 +46,7 @@
     <site>
         <id>4</id>
         <name>get_online_id_by_cp_id</name>
-        <main_url>http://fm.duokanbox.com/sid</main_url>
+        <main_url>/sid</main_url>
         <param_or_not>0</param_or_not>
         <sub_count>10</sub_count>
         <sub>/%s</sub>
@@ -56,7 +56,7 @@
     <site>
         <id>5</id>
         <name>search_songs</name>
-        <main_url>http://fm.duokanbox.com/sinfo</main_url>
+        <main_url>/sinfo</main_url>
         <param_or_not>1</param_or_not>
         <sub_count>1</sub_count>
         <sub>/%s</sub>
