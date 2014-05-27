@@ -95,6 +95,5 @@ class DuokanBox():
 if __name__ == '__main__':
     dkb = DuokanBox()
     dkb.init()
-    debug_msg(dkb.m_info.sites)
     for site in dkb.m_info.sites:
         dkb.req_site(site)
