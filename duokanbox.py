@@ -82,7 +82,7 @@ class DuokanBox():
                 tmp_site.param_or_not = int(read_site.findtext('param_or_not'))
                 info.sites.append(tmp_site)
 
-    def req_site(self, n_site=Site()):
+    def init_url(self, n_site=Site()):
         m_id = n_site.m_id
         name = n_site.name
         main_url = n_site.main_url
@@ -123,4 +123,4 @@ if __name__ == '__main__':
     dkb = DuokanBox()
     dkb.init()
     for site in dkb.m_info.sites:
-        dkb.req_site(site)
+        dkb.init_url(site)
