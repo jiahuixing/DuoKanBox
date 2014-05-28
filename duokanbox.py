@@ -29,12 +29,12 @@ class Info:
 
 # noinspection PyClassHasNoInit
 class Site:
-    m_id = ''
+    m_id = 0
     name = ''
     main_url = ''
-    sub_count = ''
+    sub_count = 0
     sub = ''
-    param_or_not = ''
+    param_or_not = 0
 
 
 # noinspection PyMethodMayBeStatic
@@ -82,6 +82,21 @@ class DuokanBox():
                 tmp_site.param_or_not = int(read_site.findtext('param_or_not'))
                 info.sites.append(tmp_site)
 
+    def init_param(self):
+        pn = self.m_info.params['pn'] % 1
+        size = self.m_info.params['size'] % 5
+        param = '?%s&%s' % (pn, size)
+        return param
+
+    def init_subs(self, url, sub, sub_count=0):
+        subs = ''
+        rnd = random.randint(1, sub_count)
+        debug_msg(color_msg('rnd=%s' % rnd))
+        for j in xrange(rnd):
+            tmp = sub % (j + 1)
+            subs += tmp
+        return subs
+
     def init_url(self, n_site=Site()):
         m_id = n_site.m_id
         name = n_site.name
@@ -92,9 +107,6 @@ class DuokanBox():
         debug_msg('m_id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
             m_id, name, main_url, sub_count, sub, param_or_not))
         url = main_url
-        pn = self.m_info.params['pn'] % 1
-        size = self.m_info.params['size'] % 5
-        param = '?%s&%s' % (pn, size)
         if m_id == 0:
             pass
         elif m_id == 1:
@@ -108,12 +120,9 @@ class DuokanBox():
         elif m_id == 5:
             pass
         if sub_count != 0:
-            rnd = random.randint(1, sub_count)
-            debug_msg(color_msg('rnd=%s' % rnd))
-            for j in xrange(rnd):
-                tmp = sub % (j + 1)
-                url += tmp
+            url = url + self.init_subs(url, sub, sub_count)
         if param_or_not == 1:
+            param = self.init_param()
             debug_msg(color_msg('param=%s' % param))
             url += param
         debug_msg(color_msg('url=%s' % url))
