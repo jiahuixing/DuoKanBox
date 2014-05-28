@@ -46,7 +46,7 @@
     <site>
         <m_id>4</m_id>
         <name>get_online_m_id_by_cp_m_id</name>
-        <main_url>/sm_id</main_url>
+        <main_url>/sid</main_url>
         <param_or_not>0</param_or_not>
         <sub_count>10</sub_count>
         <sub>/%s</sub>

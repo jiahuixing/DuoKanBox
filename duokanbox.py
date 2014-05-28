@@ -5,6 +5,7 @@ __author__ = 'jiahuixing'
 #system lib
 import ConfigParser
 from xml.etree import ElementTree
+import random
 
 #user lib
 from libs import *
@@ -76,9 +77,9 @@ class DuokanBox():
                 tmp_site.m_id = int(read_site.findtext('m_id'))
                 tmp_site.name = read_site.findtext('name')
                 tmp_site.main_url = '%s%s' % (self.m_info.domain, read_site.findtext('main_url'))
-                tmp_site.sub_count = read_site.findtext('sub_count')
+                tmp_site.sub_count = int(read_site.findtext('sub_count'))
                 tmp_site.sub = read_site.findtext('sub')
-                tmp_site.param_or_not = read_site.findtext('param_or_not')
+                tmp_site.param_or_not = int(read_site.findtext('param_or_not'))
                 info.sites.append(tmp_site)
 
     def req_site(self, n_site=Site()):
@@ -90,18 +91,32 @@ class DuokanBox():
         sub = n_site.sub
         debug_msg('m_id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
             m_id, name, main_url, sub_count, sub, param_or_not))
+        url = main_url
+        pn = self.m_info.params['pn'] % 1
+        size = self.m_info.params['size'] % 5
+        param = '?%s&%s' % (pn, size)
         if m_id == 0:
-            debug_msg('0')
+            pass
         elif m_id == 1:
-            debug_msg('1')
+            pass
         elif m_id == 2:
-            debug_msg('2')
+            pass
         elif m_id == 3:
-            debug_msg('3')
+            pass
         elif m_id == 4:
-            debug_msg('4')
+            pass
         elif m_id == 5:
-            debug_msg('5')
+            pass
+        if sub_count != 0:
+            rnd = random.randint(1, sub_count)
+            debug_msg(color_msg('rnd=%s' % rnd))
+            for j in xrange(rnd):
+                tmp = sub % (j + 1)
+                url += tmp
+        if param_or_not == 1:
+            debug_msg(color_msg('param=%s' % param))
+            url += param
+        debug_msg(color_msg('url=%s' % url))
 
 
 if __name__ == '__main__':
