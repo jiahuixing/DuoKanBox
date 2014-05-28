@@ -28,7 +28,7 @@ class Info:
 
 # noinspection PyClassHasNoInit
 class Site:
-    id = ''
+    m_id = ''
     name = ''
     main_url = ''
     sub_count = ''
@@ -73,7 +73,7 @@ class DuokanBox():
             for read_site in read_sites:
                 tmp_site = Site()
                 # assert isinstance(read_site, ElementTree.Element)
-                tmp_site.id = read_site.findtext('id')
+                tmp_site.m_id = int(read_site.findtext('m_id'))
                 tmp_site.name = read_site.findtext('name')
                 tmp_site.main_url = '%s%s' % (self.m_info.domain, read_site.findtext('main_url'))
                 tmp_site.sub_count = read_site.findtext('sub_count')
@@ -82,14 +82,26 @@ class DuokanBox():
                 info.sites.append(tmp_site)
 
     def req_site(self, n_site=Site()):
-        m_id = n_site.id
+        m_id = n_site.m_id
         name = n_site.name
         main_url = n_site.main_url
         param_or_not = n_site.param_or_not
         sub_count = n_site.sub_count
         sub = n_site.sub
-        debug_msg('id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
+        debug_msg('m_id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
             m_id, name, main_url, sub_count, sub, param_or_not))
+        if m_id == 0:
+            debug_msg('0')
+        elif m_id == 1:
+            debug_msg('1')
+        elif m_id == 2:
+            debug_msg('2')
+        elif m_id == 3:
+            debug_msg('3')
+        elif m_id == 4:
+            debug_msg('4')
+        elif m_id == 5:
+            debug_msg('5')
 
 
 if __name__ == '__main__':
