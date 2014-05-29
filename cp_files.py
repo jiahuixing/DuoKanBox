@@ -18,6 +18,7 @@ valid_suffix = [
 ignore_files = [
     'cp_files.py',
     'duokanboxtest.py',
+    'test.py',
 ]
 
 
