@@ -13,7 +13,7 @@ import json
 from libs import *
 
 #staging or online
-STAGING = 1
+STAGING = 0
 
 
 # noinspection PyClassHasNoInit
@@ -187,18 +187,20 @@ class DuokanBox():
                 sites.append(tmp_site)
         self.m_info.set_sites(sites)
 
-    def init_param(self):
-        pn = self.m_info.get_params()['pn'] % 1
-        size = self.m_info.get_params()['size'] % 5
-        param = '?%s&%s' % (pn, size)
+    def init_param(self, pn=1, size=10):
+        m_pn = self.m_info.get_params()['pn'] % pn
+        m_size = self.m_info.get_params()['size'] % size
+        param = '?%s&%s' % (m_pn, m_size)
         return param
 
-    def init_subs(self, sub, sub_count=0):
+    def init_subs(self, n_site=Site()):
+        sub = n_site.get_sub()
+        sub_count = n_site.get_sub_count()
         subs = ''
         rnd = random.randint(1, sub_count)
         debug_msg(color_msg('rnd=%s' % rnd))
         for j in xrange(rnd):
-            tmp = sub % (j + 1)
+            tmp = sub % (j + 3)
             subs += tmp
         return subs
 
@@ -225,7 +227,7 @@ class DuokanBox():
         elif m_id == 5:
             pass
         if sub_count != 0:
-            m_url = m_url + self.init_subs(sub, sub_count)
+            m_url = m_url + self.init_subs(n_site)
         if param_or_not == 1:
             param = self.init_param()
             debug_msg(color_msg('param=%s' % param))
