@@ -37,7 +37,7 @@
         <m_id>3</m_id>
         <name>song_info</name>
         <main_url>/music</main_url>
-        <param_or_not>1</param_or_not>
+        <param_or_not>0</param_or_not>
         <sub_count>10</sub_count>
         <sub>/%s</sub>
     </site>

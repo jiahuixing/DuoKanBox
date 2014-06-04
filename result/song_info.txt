@@ -1,1 +1,1 @@
-{"status": 1, "msg": "ok", "total": 1, "list": [{"cover_url": "http://d.hiphotos.baidu.com/ting/pic/item/38dbb6fd5266d016394b000c952bd40735fa3547.jpg", "song_url": "", "lyric_url": "http://musicdata.baidu.com/data2/lrc/15367256/Take+You.lrc", "album_name": "Believe", "name": "Take You", "language": "", "file_duration": "", "country": "", "compose_name": "", "artist_name": "Justin Bieber", "cp_song_id": 14890017, "lyricist_name": "", "sid": 3, "copy_type": "1", "all_rate": "24,64,128,192,256,320,flac", "cp_id": 1}]}
+{"status": 1, "msg": "ok", "total": 0, "list": []}

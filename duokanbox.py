@@ -5,7 +5,6 @@ __author__ = 'jiahuixing'
 #system lib
 import ConfigParser
 from xml.etree import ElementTree
-import random
 import urllib2
 import json
 
@@ -27,6 +26,8 @@ class Info:
     channels = list()
     musics = list()
     cp_ids = list()
+
+    result = dict()
 
     def set_domain(self, domain):
         self.domain = domain
@@ -93,6 +94,11 @@ class Site:
     param_or_not = 0
     m_url = ''
 
+    status = 0
+    msg = ''
+    total = 0
+    m_list = list()
+
     def set_id(self, m_id):
         self.m_id = m_id
 
@@ -135,6 +141,30 @@ class Site:
     def get_m_url(self):
         return self.m_url
 
+    def set_status(self, status):
+        self.status = status
+
+    def get_status(self):
+        return self.status
+
+    def set_msg(self, msg):
+        self.msg = msg
+
+    def get_msg(self):
+        return self.msg
+
+    def set_total(self, total):
+        self.total = total
+
+    def get_total(self):
+        return self.total
+
+    def set_list(self, m_list):
+        self.m_list = m_list
+
+    def get_list(self):
+        return self.m_list
+
 
 # noinspection PyMethodMayBeStatic
 class DuokanBox():
@@ -146,7 +176,7 @@ class DuokanBox():
     def init(self):
         try:
             self.get_config()
-            self.get_site()
+            self.get_sites()
         except IOError:
             print('IOError')
 
@@ -170,7 +200,7 @@ class DuokanBox():
         info.set_domain(domain)
         self.m_info = info
 
-    def get_site(self):
+    def get_sites(self):
         sites = list()
         root = ElementTree.parse(self.m_info.xml)
         if root:
@@ -194,53 +224,118 @@ class DuokanBox():
         return param
 
     def init_subs(self, n_site=Site()):
+        m_id = n_site.get_id()
         sub = n_site.get_sub()
         sub_count = n_site.get_sub_count()
         subs = ''
-        rnd = random.randint(1, sub_count)
-        debug_msg(color_msg('rnd=%s' % rnd))
-        for j in xrange(rnd):
-            tmp = sub % (j + 3)
-            subs += tmp
+        if m_id == 1:
+            subs = sub % self.m_info.get_categories()[0]
+        if m_id == 2:
+            subs = sub % self.m_info.get_channels()[0]
+        if m_id == 3:
+            count = max(sub_count, len(self.m_info.get_musics()))
+            for i in xrange(count):
+                tmp = sub % self.m_info.get_musics()[i]
+                subs += tmp
+        if m_id == 4:
+            count = max(sub_count, len(self.m_info.get_cp_ids()))
+            for i in xrange(count):
+                tmp = sub % self.m_info.get_cp_ids()[i]
+                subs += tmp
+        if m_id == 5:
+            subs = sub % '王力宏'
+
         return subs
 
     def init_url(self, n_site=Site()):
+        main_url = n_site.get_main_url()
+        param_or_not = n_site.get_param_or_not()
+        sub_count = n_site.get_sub_count()
+        m_url = main_url
+        if sub_count != 0:
+            subs = self.init_subs(n_site)
+            m_url += subs
+        if param_or_not == 1:
+            param = self.init_param()
+            # debug_msg(color_msg('param=%s' % param))
+            m_url += param
+        # debug_msg(color_msg('url=%s' % m_url))
+        n_site.m_url = m_url
+
+    def req_url(self, n_site=Site()):
         m_id = n_site.get_id()
         name = n_site.get_name()
         main_url = n_site.get_main_url()
         param_or_not = n_site.get_param_or_not()
         sub_count = n_site.get_sub_count()
         sub = n_site.get_sub()
+        m_url = n_site.get_m_url()
         debug_msg('m_id=%s\nname=%s\nmain_url=%s\nsub_count=%s,sub=%s\nparam_or_not=%s' % (
             m_id, name, main_url, sub_count, sub, param_or_not))
-        m_url = main_url
-        if m_id == 0:
-            pass
-        elif m_id == 1:
-            pass
-        elif m_id == 2:
-            pass
-        elif m_id == 3:
-            pass
-        elif m_id == 4:
-            pass
-        elif m_id == 5:
-            pass
-        if sub_count != 0:
-            m_url = m_url + self.init_subs(n_site)
-        if param_or_not == 1:
-            param = self.init_param()
-            debug_msg(color_msg('param=%s' % param))
-            m_url += param
-        debug_msg(color_msg('url=%s' % m_url))
-        n_site.m_url = m_url
-
-    def req_url(self, n_site=Site()):
+        debug_msg('m_url=%s' % m_url)
         try:
-            request = urllib2.Request(n_site.m_url)
+            m_url = urllib2.quote(m_url, safe=':\'/?&=()')
+            request = urllib2.Request(m_url)
             response = urllib2.urlopen(request)
             read_str = response.read()
-            debug_msg(read_str)
+            # debug_msg(read_str)
+            json_obj = json.loads(read_str)
+            status = json_obj['status']
+            msg = json_obj['msg']
+            total = json_obj['total']
+            m_list = json_obj['list']
+            debug_msg('status=%s' % status)
+            debug_msg('msg=%s' % msg)
+            debug_msg('total=%s' % total)
+            debug_msg('m_list=%s' % m_list)
+            site.set_status(status)
+            site.set_msg(msg)
+            site.set_total(total)
+            site.set_list(m_list)
+            txt_file_name = name + '.txt'
+            if m_id == 0:
+                categories = list()
+                for info in m_list:
+                    # json_obj = json.loads(info)
+                    cid = info['cid']
+                    categories.append(cid)
+                self.m_info.categories = sorted(categories)
+                debug_msg(self.m_info.categories)
+            elif m_id == 1:
+                channels = list()
+                for info in m_list:
+                    nid = info['nid']
+                    channels.append(nid)
+                self.m_info.channels = sorted(channels)
+                debug_msg(self.m_info.channels)
+            elif m_id == 2:
+                musics = list()
+                for info in m_list:
+                    cp_song_id = info['sid']
+                    musics.append(cp_song_id)
+                self.m_info.musics = sorted(musics)
+                debug_msg(self.m_info.musics)
+            elif m_id == 3:
+                cp_ids = list()
+                for info in m_list:
+                    cp_song_id = info['cp_song_id']
+                    cp_ids.append(cp_song_id)
+                self.m_info.cp_ids = sorted(cp_ids)
+                debug_msg(self.m_info.cp_ids)
+            elif m_id == 4:
+                cp_ids = list()
+                for info in m_list:
+                    cp_song_id = info['cp_song_id']
+                    cp_ids.append(cp_song_id)
+                self.m_info.cp_ids = sorted(cp_ids)
+                debug_msg(self.m_info.cp_ids)
+                # elif m_id == 5:
+                #     cp_ids = list()
+                #     for info in m_list:
+                #         cp_song_id = info['cp_song_id']
+                #         cp_ids.append(cp_song_id)
+                #     self.m_info.cp_ids = sorted(cp_ids)
+                #     debug_msg(self.m_info.cp_ids)
         except urllib2.HTTPError, e:
             print('\nError=%s' % e.code)
 
