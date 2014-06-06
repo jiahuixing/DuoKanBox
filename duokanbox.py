@@ -24,7 +24,7 @@ class Info:
     sites = list()
     categories = list()
     channels = list()
-    musics = list()
+    sids = list()
     cp_ids = list()
 
     result = dict()
@@ -71,11 +71,11 @@ class Info:
     def get_channels(self):
         return self.channels
 
-    def set_musics(self, musics):
-        self.musics = musics
+    def set_sids(self, sids):
+        self.sids = sids
 
-    def get_musics(self):
-        return self.musics
+    def get_sids(self):
+        return self.sids
 
     def set_cp_ids(self, cp_ids):
         self.cp_ids = cp_ids
@@ -233,9 +233,9 @@ class DuokanBox():
         if m_id == 2:
             subs = sub % self.m_info.get_channels()[0]
         if m_id == 3:
-            count = max(sub_count, len(self.m_info.get_musics()))
+            count = max(sub_count, len(self.m_info.get_sids()))
             for i in xrange(count):
-                tmp = sub % self.m_info.get_musics()[i]
+                tmp = sub % self.m_info.get_sids()[i]
                 subs += tmp
         if m_id == 4:
             count = max(sub_count, len(self.m_info.get_cp_ids()))
@@ -309,12 +309,12 @@ class DuokanBox():
                 self.m_info.channels = sorted(channels)
                 debug_msg(self.m_info.channels)
             elif m_id == 2:
-                musics = list()
+                sids = list()
                 for info in m_list:
-                    cp_song_id = info['sid']
-                    musics.append(cp_song_id)
-                self.m_info.musics = sorted(musics)
-                debug_msg(self.m_info.musics)
+                    sid = info['sid']
+                    sids.append(sid)
+                self.m_info.sids = sorted(sids)
+                debug_msg(self.m_info.sids)
             elif m_id == 3:
                 cp_ids = list()
                 for info in m_list:
